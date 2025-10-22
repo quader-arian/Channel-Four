@@ -10,6 +10,7 @@ public class NumberController : MonoBehaviour
     string[] answer = new string [3];
     string input;
     public int score;
+    public int hp = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +33,12 @@ public class NumberController : MonoBehaviour
                 //source.PlayOneShot(type);
                 //StartCoroutine(sh.Shake(.05f, .05f));
                 //Instantiate(effect, transform.position, Quaternion.identity);
+            }else if (c == '\b')
+            {
+                Debug.Log("RESET");
+                input = "";
             }
-            else if ((c == '\n') || (c == ' ') || (c == '\r') || (c == '\b'))
+            else if ((c == '\n') || (c == ' ') || (c == '\r'))
             {
                 if (answer[0] + answer[1] + answer[2] == input)
                 {
@@ -43,9 +48,10 @@ public class NumberController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("INCORRECT");
+
                 }
                 input = "";
+
             }
         }
         phoneTMP.text = input;
