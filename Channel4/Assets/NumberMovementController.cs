@@ -1,27 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class NumberMovementController : MonoBehaviour
 {
-    [SerializeField] NumberController numberController;
-    public GameObject text;
-    public GameObject boundUL;
-    public GameObject boundLR;
-    private Vector3 current;
+    [Header("Difficulty Speeds")]
     public float speedX = 0.001f;
     public float speedY = 0.001f;
     public float speedR = 3.0f;
     Quaternion target;
+
+    [Header("Difficulty Starts")]
     public int verticalMovmentStart = 3;
     public int horizontalMovmentStart = 6;
     public int rotationMovmentStart = 9;
+
+    [Header("Changed Objects")]
+    [SerializeField] NumberController numberController;
+    public GameObject text;
+    private Vector3 transformOG;
+    public GameObject boundUL;
+    private Transform transformUL;
+    public GameObject boundLR;
+    private Transform transformLR;
+    private Vector3 current;
 
     // Start is called before the first frame update
     void Start()
     {
         current = text.transform.position;
+        transformOG = text.transform.position;
+        transformUL = boundUL.transform;
+        transformLR = boundLR.transform;
         boundLR.SetActive(false);
         boundUL.SetActive(false);
     }
@@ -32,11 +42,11 @@ public class NumberMovementController : MonoBehaviour
         if(numberController.score >= verticalMovmentStart)
         {
             current.x += speedX;
-            if(current.x >= boundLR.transform.position.x)
+            if(current.x >= transformLR.position.x)
             {
                 speedX = -speedX;
             }
-            if (current.x <= boundUL.transform.position.x)
+            if (current.x <= transformUL.position.x)
             {
                 speedX = -speedX;
             }
@@ -45,11 +55,11 @@ public class NumberMovementController : MonoBehaviour
         if (numberController.score >= horizontalMovmentStart)
         {
             current.y += speedY;
-            if (current.y >= boundUL.transform.position.y)
+            if (current.y >= transformUL.position.y)
             {
                 speedY = -speedY;
             }
-            if (current.y <= boundLR.transform.position.y)
+            if (current.y <= transformLR.position.y)
             {
                 speedY = -speedY;
             }
@@ -57,17 +67,23 @@ public class NumberMovementController : MonoBehaviour
 
         if (numberController.score >= rotationMovmentStart)
         {
-            if (text.transform.rotation.z < -180f)
-            {
-                text.transform.rotation = Quaternion.Slerp(text.transform.rotation, Quaternion.Euler(0, 0, -180.0f), Time.deltaTime * speedR);
-            }
-            else
-            {
-                text.transform.rotation = Quaternion.Slerp(text.transform.rotation, Quaternion.Euler(0, 0, -360f), Time.deltaTime * speedR);
-            }
-                
+            //verticalMovmentStart = 1000;
+            //current.y = transform.position.y;
+
+            float startRotation = text.transform.eulerAngles.z;
+            float endRotation = startRotation + 360.0f;
+            float t = 0.0f;
+
+            t += Time.deltaTime;
+            float zRotation = Mathf.Lerp(startRotation, endRotation, t / speedR) % 360.0f;
+            text.transform.eulerAngles = new Vector3(text.transform.eulerAngles.x, text.transform.eulerAngles.y, zRotation);
         }
 
         text.transform.position = current;
+
+        if (numberController.hp <= 0)
+        {
+            text.transform.position = transformOG;
+        }
     }
 }
