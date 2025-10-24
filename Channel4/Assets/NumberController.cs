@@ -24,7 +24,7 @@ public class NumberController : MonoBehaviour
         currentTime = 1000;
         answer[0] = "111";
         answer[1] = "3333";
-        answerTMP.text = answer[0] + "-" + answer[1];
+        answerTMP.text = "\n" + answer[0] + "-" + answer[1];
     }
 
     // Update is called once per frame
@@ -63,7 +63,7 @@ public class NumberController : MonoBehaviour
                     score++;
                     randomizeNumber();
                     currentTime = timeLimit;
-                    answerTMP.text = answer[0] + "-" + answer[1];
+                    answerTMP.text = "\n" + answer[0] + "-" + answer[1];
                 }
                 else
                 {
@@ -83,8 +83,7 @@ public class NumberController : MonoBehaviour
             currentTime = 1000f;
             answer[0] = "111";
             answer[1] = "3333";
-            answerTMP.text = "CALL\n" + answer[0] + "-" + answer[1] + "\nTO TRY AGAIN";
-
+            answerTMP.text = "CALL AGAIN!\n" + answer[0] + "-" + answer[1];
         }
         phoneTMP.text = input;
     }

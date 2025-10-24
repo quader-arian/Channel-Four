@@ -6,8 +6,11 @@ public class MovementController : MonoBehaviour
 {
     public GameObject cameraA;
     public GameObject cameraS;
-    public GameObject cameraD;
     public GameObject cameraW;
+    public GameObject phone;
+    public Vector3 phoneEngaged;
+    public Vector3 phoneDisengaged;
+
     private void Start()
     {
         
@@ -19,8 +22,15 @@ public class MovementController : MonoBehaviour
             TurnOnCamera(cameraA);
         }
 
-        if (Input.GetKey(KeyCode.D)){
-            TurnOnCamera(cameraD);
+        if (Input.GetKeyDown(KeyCode.D)){
+            if(phone.transform.position == phoneEngaged)
+            {
+                phone.transform.position = phoneDisengaged;
+            }
+            else
+            {
+                phone.transform.position = phoneEngaged;
+            }
         }
 
         if (Input.GetKey(KeyCode.W)){
@@ -37,7 +47,6 @@ public class MovementController : MonoBehaviour
         cameraA.SetActive(false);
         cameraS.SetActive(false);
         cameraW.SetActive(false);
-        cameraD.SetActive(false);
         camera.SetActive(true);
     }
 }
