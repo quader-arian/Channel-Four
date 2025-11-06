@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NumberController : MonoBehaviour
 {
@@ -16,6 +18,10 @@ public class NumberController : MonoBehaviour
     public TMP_Text scoreTMP;
     string[] answer = new string[2];
     string input;
+
+    public static event Action<char> OnNumberPressed;
+    public static event Action OnNumberCorrect;
+    public static event Action OnNumberWrong;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +53,7 @@ public class NumberController : MonoBehaviour
             if (c >= '0' && c <= '9')
             {
                 input += c;
+                OnNumberPressed?.Invoke(c);
                 //source.PlayOneShot(type);
                 //StartCoroutine(sh.Shake(.05f, .05f));
                 //Instantiate(effect, transform.position, Quaternion.identity);
@@ -60,6 +67,7 @@ public class NumberController : MonoBehaviour
                 if (answer[0] + answer[1] == input)
                 {
                     Debug.Log("CORRECT");
+                    OnNumberCorrect?.Invoke();
                     score++;
                     randomizeNumber();
                     currentTime = timeLimit;
@@ -67,6 +75,7 @@ public class NumberController : MonoBehaviour
                 }
                 else
                 {
+                    OnNumberWrong?.Invoke();
                     Debug.Log("INCORRECT");
                     hp--;
                 }
