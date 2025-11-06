@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovementController : MonoBehaviour
 {
+    public GameObject cameraMain;
     public GameObject cameraA;
     public GameObject cameraS;
     public GameObject cameraW;
@@ -19,11 +20,14 @@ public class MovementController : MonoBehaviour
     private void Update()
     {
         if (Input.GetKey(KeyCode.A)){
-            TurnOnCamera(cameraA);
+            cameraMain.transform.position = cameraA.transform.position;
+            cameraMain.transform.rotation = cameraA.transform.rotation;
         }
 
         if (Input.GetKeyDown(KeyCode.D)){
-            if(phone.transform.position == phoneEngaged)
+            cameraMain.transform.position = cameraS.transform.position;
+            cameraMain.transform.rotation = cameraS.transform.rotation;
+            if (phone.transform.position == phoneEngaged)
             {
                 phone.transform.position = phoneDisengaged;
             }
@@ -34,19 +38,13 @@ public class MovementController : MonoBehaviour
         }
 
         if (Input.GetKey(KeyCode.W)){
-            TurnOnCamera(cameraW);
+            cameraMain.transform.position = cameraW.transform.position;
+            cameraMain.transform.rotation = cameraW.transform.rotation;
         }
 
         if (Input.GetKey(KeyCode.S)){
-            TurnOnCamera(cameraS);
+            cameraMain.transform.position = cameraS.transform.position;
+            cameraMain.transform.rotation = cameraS.transform.rotation;
         }
-    }
-
-    private void TurnOnCamera(GameObject camera)
-    {
-        cameraA.SetActive(false);
-        cameraS.SetActive(false);
-        cameraW.SetActive(false);
-        camera.SetActive(true);
     }
 }

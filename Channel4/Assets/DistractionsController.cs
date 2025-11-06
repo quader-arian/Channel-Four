@@ -7,6 +7,7 @@ public class DistractionsController : MonoBehaviour
 {
     [Header("Point System")]
     [SerializeField] NumberController numberController;
+    int current = 0;
 
     [Header("Rat Plug")]
     public GameObject[] ratPlug = new GameObject[2];
@@ -18,9 +19,12 @@ public class DistractionsController : MonoBehaviour
     public GameObject[] antennaBlown = new GameObject[2];
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
+
     }
 
     // Update is called once per frame
@@ -28,7 +32,7 @@ public class DistractionsController : MonoBehaviour
     {
         if(numberController.score >= 10)
         {
-
+           current = Random.Range(0, 3);
         }
     }
 }
